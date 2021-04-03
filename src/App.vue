@@ -1,11 +1,13 @@
 <template>
     <div class="start-container">
       <h1>Reaction Test!</h1>
+      <p class="hint">Press 'Start' button and wait... <br> after awhile another button will appear and click it as fast as you could!</p>
       <button :disabled="buttons"  @click="playGame"> {{ buttonText }} </button>
       <Block v-if="showBlock" :delay="delay" @end="endGame"/>
 
       <div class="result" v-show="showResult">
         <h2>Reaction time: <span> {{ finalScore }} sec </span></h2>
+        <p class="textresult">{{ textResult }}</p>
       </div>
     </div>
 
@@ -23,6 +25,7 @@ export default {
         buttons: false,
         delay: null,
         showResult: false,
+        textResult: null,
         finalScore: 0,
         buttonText: 'Start'
       }
@@ -37,6 +40,17 @@ export default {
       },
       endGame(score) {
         console.log(`final score ${score} ms`)
+
+        if (score > 0 && score <= 300) {
+          this.textResult = `Are you THE FLASH?!`
+        } else if (score > 300  && score <= 500) {
+          this.textResult = `Wow that's quick`
+        } else if (score > 500  && score <= 1000) {
+          this.textResult = `You could do Better`
+        } else if (score > 1000) {
+          this.textResult = `Zzzzzzzzzz. . .`
+        }
+
         this.buttons = false
         this.showBlock = false
         this.finalScore = Math.round(score) *0.001
@@ -58,7 +72,7 @@ export default {
 
     body {
       max-width: 800px;
-      margin: 50px auto;
+      margin: 40px auto;
     }
 
     .start-container {
@@ -67,13 +81,20 @@ export default {
       justify-content: center;
       align-items: center;
     }
+    
+    .hint {
+      margin-top: 10px;
+      font-weight: 300;
+      text-align: center;
+      padding: 10px 20px;
+    }
 
     button {
       border-radius: 10px;
       width: 100px;
       height: 50px;
-      margin-top: 30px;
-      margin-bottom: 30px;
+      margin-top: 20px;
+      margin-bottom: 25px;
       background: rgba(144,238,144,1);
       border: 2px solid black;
       cursor: pointer;
@@ -91,6 +112,12 @@ export default {
       color: rgb(219, 57, 57);
       font-size: 2.5rem;
       font-weight: 600;
+    }
+
+    .textresult {
+      font-weight: 700;
+      text-align: center;
+      margin-top: 10px;
     }
 
     @media screen and (max-width: 500px) {
