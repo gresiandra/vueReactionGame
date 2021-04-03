@@ -80,6 +80,7 @@ export default {
     @media screen and (max-width: 500px) {
         .block .clickMe {
             background: rgb(219, 57, 57);
+            color: white;
         }
     }
 </style>
